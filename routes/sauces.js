@@ -19,4 +19,14 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.post("/", async (req, res) => {
+  console.log(req.body);
+
+  try {
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;
