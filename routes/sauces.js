@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const sauce = await Sauce.findOne(req.param.id);
+    const sauce = await Sauce.findById(req.params.id);
     res.status(200).json(sauce);
   } catch (error) {
     res.status(500).json(error);
