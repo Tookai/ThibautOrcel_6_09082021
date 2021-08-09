@@ -1,8 +1,6 @@
 const router = require("express").Router();
 // ----------
-const Sauce = require("../models/Sauce");
 const multer = require("../middleware/multer");
-const fs = require("fs");
 // ----------
 const sauceCtrl = require("../controllers/sauce");
 // ----------
