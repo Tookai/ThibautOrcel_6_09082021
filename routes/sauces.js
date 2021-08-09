@@ -72,4 +72,36 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+router.post("/:id/like", async (req, res) => {
+  const sauce = await Sauce.findOne({ _id: req.params.id });
+  const indexLike = sauce.usersLiked.indexOf(req.body.userId);
+  const indexDislike = sauce.usersDisliked.indexOf(req.body.userId);
+  function findId(id) {
+    return id == req.body.userId;
+  }
+  try {
+    if (req.body.like == "1") {
+      sauce.likes++, sauce.usersLiked.push(req.body.userId), await sauce.save();
+      res.status(200).json(`Vous aimez cette sauce`);
+    }
+
+    if (req.body.like == "-1") {
+      sauce.dislikes++, sauce.usersDisliked.push(req.body.userId), await sauce.save();
+      res.status(200).json(`Vous détestez cette sauce`);
+    }
+
+    if (req.body.like === 0 && sauce.usersLiked.find(findId) === req.body.userId) {
+      sauce.likes--, sauce.usersLiked.splice(indexLike, 1), await sauce.save();
+      res.status(200).json(`Vous n'aimez plus cette sauce`);
+    }
+
+    if (req.body.like === 0 && sauce.usersDisliked.find(findId) === req.body.userId) {
+      sauce.dislikes--, sauce.usersDisliked.splice(indexDislike, 1), await sauce.save();
+      res.status(200).json(`Vous ne détestez plus cette sauce`);
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
 module.exports = router;
