@@ -4,7 +4,6 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
 router.post("/signup", async (req, res) => {
-  console.log(req.body);
   const HashedPw = await bcrypt.hash(req.body.password, 10);
   try {
     const newUser = new User({
@@ -13,6 +12,26 @@ router.post("/signup", async (req, res) => {
     });
     const user = await newUser.save();
     res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.post("/login", async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      res.status(400).json(`Pas d'utilisateur avec ce nom.`);
+    } else {
+      const validPw = await bcrypt.compare(req.body.password, user.password);
+      if (!validPw) {
+        res.status(401).json(`Le mot de passe n'est pas bon.`);
+      }
+      res.status(200).json({
+        userId: user._id,
+        token: "TOKEN",
+      });
+    }
   } catch (error) {
     res.status(500).json(error);
   }
