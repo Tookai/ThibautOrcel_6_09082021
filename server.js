@@ -5,6 +5,7 @@ const app = express();
 const cors = require("cors");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
+const path = require("path");
 // ----------
 const userRoute = require("./routes/users");
 const sauceRoute = require("./routes/sauces");
@@ -26,6 +27,8 @@ app.use(helmet());
 // Readable Body
 app.use(express.json());
 // ----------
+// gestionnaire de routage
+app.use("/images", express.static(path.join(__dirname, "images")));
 // ----------
 app.use("/api/auth", userRoute);
 app.use("/api/sauces", sauceRoute);

@@ -22,10 +22,15 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", multer, async (req, res) => {
   console.log(req.body.sauce);
-  
-
+  data = JSON.parse(req.body.sauce);
+  console.log(data);
+  const newSauce = new Sauce({
+    ...data,
+    imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+  });
   try {
-    res.status(200).json(data);
+    const savedSauce = await newSauce.save();
+    res.status(200).json(savedSauce);
   } catch (error) {
     res.status(500).json(error);
   }
