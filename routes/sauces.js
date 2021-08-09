@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Sauce = require("../models/Sauce");
+const multer = require("../middleware/multer");
 
 router.get("/", async (req, res) => {
   try {
@@ -19,8 +20,9 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
-  console.log(req.body);
+router.post("/", multer, async (req, res) => {
+  console.log(req.body.sauce);
+  
 
   try {
     res.status(200).json(data);
