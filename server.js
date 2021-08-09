@@ -1,15 +1,15 @@
-// ----------
+// ---------- EXPRESS
 const express = require("express");
 const app = express();
-// ----------
+// ---------- DEPENDENCIES
 const cors = require("cors");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
 const path = require("path");
-// ----------
+// ---------- ROUTES
 const userRoute = require("./routes/users");
 const sauceRoute = require("./routes/sauces");
-// ----------
+// ---------- MONGODB CONNECTION
 mongoose
   .connect("mongodb+srv://Tookai:Thibaut21@cluster0.oniut.mongodb.net/projet6?retryWrites=true&w=majority", {
     useNewUrlParser: true,
@@ -21,7 +21,7 @@ mongoose
   })
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
-// ----------
+// ---------- 
 // Cross Origin Resource Sharing
 app.use(cors());
 // Headers Protection
@@ -31,7 +31,7 @@ app.use(express.json());
 // ----------
 // gestionnaire de routage
 app.use("/images", express.static(path.join(__dirname, "images")));
-// ----------
+// ---------- ROUTES
 app.use("/api/auth", userRoute);
 app.use("/api/sauces", sauceRoute);
 // ----------
