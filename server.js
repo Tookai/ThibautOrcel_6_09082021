@@ -14,7 +14,9 @@ mongoose
   .connect("mongodb+srv://Tookai:Thibaut21@cluster0.oniut.mongodb.net/projet6?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    //
     useCreateIndex: true,
+    useFindAndModify: false
     // for deprecation warning
   })
   .then(() => console.log("Connexion à MongoDB réussie !"))

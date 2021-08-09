@@ -36,4 +36,27 @@ router.post("/", multer, async (req, res) => {
   }
 });
 
+router.put("/:id", multer, async (req, res) => {
+  console.log(!req.file);
+  try {
+    if (!req.file) {
+      const data = req.body;
+      const updatedSauce = await Sauce.findByIdAndUpdate({ _id: req.params.id }, data, { new: true });
+      const savedSauce = await updatedSauce.save();
+      res.status(200).json(savedSauce);
+    } else {
+      const data = JSON.parse(req.body.sauce);
+      const updatedSauce = await Sauce.findByIdAndUpdate(
+        { _id: req.params.id },
+        { ...data, imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` },
+        { new: true }
+      );
+      const savedSauce = await updatedSauce.save();
+      res.status(200).json(savedSauce);
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;
