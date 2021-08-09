@@ -2,6 +2,7 @@ const router = require("express").Router();
 // ----------
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 router.post("/signup", async (req, res) => {
   const HashedPw = await bcrypt.hash(req.body.password, 10);
@@ -29,7 +30,7 @@ router.post("/login", async (req, res) => {
       }
       res.status(200).json({
         userId: user._id,
-        token: "TOKEN",
+        token: jwt.sign({ userId: user._id }, "SUPER_SECRET_KEY", { expiresIn: "1d" }),
       });
     }
   } catch (error) {
