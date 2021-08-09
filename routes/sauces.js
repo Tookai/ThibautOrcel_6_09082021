@@ -10,4 +10,13 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const sauce = await Sauce.findOne(req.param.id);
+    res.status(200).json(sauce);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;
