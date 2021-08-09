@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const sauce = await Sauce.findById(req.params.id);
+    const sauce = await Sauce.findOne({ _id: req.params.id });
     res.status(200).json(sauce);
   } catch (error) {
     res.status(500).json(error);
@@ -42,12 +42,12 @@ router.put("/:id", multer, async (req, res) => {
   try {
     if (!req.file) {
       const data = req.body;
-      const updatedSauce = await Sauce.findByIdAndUpdate({ _id: req.params.id }, data, { new: true });
+      const updatedSauce = await Sauce.findOneAndUpdate({ _id: req.params.id }, data, { new: true });
       const savedSauce = await updatedSauce.save();
       res.status(200).json(savedSauce);
     } else {
       const data = JSON.parse(req.body.sauce);
-      const updatedSauce = await Sauce.findByIdAndUpdate(
+      const updatedSauce = await Sauce.findOneAndUpdate(
         { _id: req.params.id },
         { ...data, imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` },
         { new: true }
@@ -62,10 +62,10 @@ router.put("/:id", multer, async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    const sauce = await Sauce.findById({ _id: req.params.id });
+    const sauce = await Sauce.findOne({ _id: req.params.id });
     const filename = sauce.imageUrl.split("/images")[1];
-    fs.unlink(`images/${filename}`, () => console.log('Image Supprimée'));
-    const deletedSauce = await Sauce.findByIdAndDelete({ _id: req.params.id });
+    fs.unlink(`images/${filename}`, () => console.log("Image Supprimée"));
+    const deletedSauce = await Sauce.findOneAndDelete({ _id: req.params.id });
     res.status(200).json(deletedSauce);
   } catch (error) {
     res.status(500).json(error);
