@@ -20,9 +20,7 @@ exports.getOneSauce = async (req, res) => {
 };
 
 exports.postOneSauce = async (req, res) => {
-  console.log(req.body.sauce);
   data = JSON.parse(req.body.sauce);
-  console.log(data);
   const newSauce = new Sauce({
     ...data,
     imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
@@ -36,7 +34,6 @@ exports.postOneSauce = async (req, res) => {
 };
 
 exports.updateOneSauce = async (req, res) => {
-  console.log(!req.file);
   try {
     if (!req.file) {
       const data = req.body;
