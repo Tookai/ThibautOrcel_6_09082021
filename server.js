@@ -16,7 +16,7 @@ mongoose
     useUnifiedTopology: true,
     //
     useCreateIndex: true,
-    useFindAndModify: false
+    useFindAndModify: false,
     // for deprecation warning
   })
   .then(() => console.log("Connexion à MongoDB réussie !"))

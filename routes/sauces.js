@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Sauce = require("../models/Sauce");
 const multer = require("../middleware/multer");
+const fs = require("fs");
 
 router.get("/", async (req, res) => {
   try {
@@ -54,6 +55,18 @@ router.put("/:id", multer, async (req, res) => {
       const savedSauce = await updatedSauce.save();
       res.status(200).json(savedSauce);
     }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const sauce = await Sauce.findById({ _id: req.params.id });
+    const filename = sauce.imageUrl.split("/images")[1];
+    fs.unlink(`images/${filename}`, () => console.log('Image Supprimée'));
+    const deletedSauce = await Sauce.findByIdAndDelete({ _id: req.params.id });
+    res.status(200).json(deletedSauce);
   } catch (error) {
     res.status(500).json(error);
   }
