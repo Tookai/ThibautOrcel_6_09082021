@@ -95,6 +95,6 @@ exports.handleLike = async (req, res) => {
       res.status(200).json(`Vous ne détestez plus cette sauce`);
     }
   } catch (error) {
-    res.status(400).json(error);
+    res.status(500).json(error);
   }
 };
