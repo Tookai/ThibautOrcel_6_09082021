@@ -6,12 +6,15 @@ const cors = require("cors");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
 const path = require("path");
+const dotenv = require("dotenv");
 // ---------- ROUTES
 const userRoute = require("./routes/users");
 const sauceRoute = require("./routes/sauces");
+// Environment variables
+dotenv.config();
 // ---------- MONGODB CONNECTION
 mongoose
-  .connect("mongodb+srv://Tookai:Thibaut21@cluster0.oniut.mongodb.net/projet6?retryWrites=true&w=majority", {
+  .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     //
@@ -22,6 +25,7 @@ mongoose
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
 // ----------
+
 // Cross Origin Resource Sharing
 app.use(cors());
 // Headers Protection

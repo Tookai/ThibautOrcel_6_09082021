@@ -28,7 +28,7 @@ exports.loginAccount = async (req, res) => {
       }
       res.status(200).json({
         userId: user._id,
-        token: jwt.sign({ userId: user._id }, "SUPER_SECRET_KEY", { expiresIn: "1d" }),
+        token: jwt.sign({ userId: user._id }, process.env.JWT_KEY, { expiresIn: "1d" }),
       });
     }
   } catch (error) {
