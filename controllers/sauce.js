@@ -42,6 +42,9 @@ exports.updateOneSauce = async (req, res) => {
       res.status(200).json(savedSauce);
     } else {
       const data = JSON.parse(req.body.sauce);
+      const sauce = await Sauce.findOne({ _id: req.params.id });
+      const filename = sauce.imageUrl.split("/images")[1];
+      fs.unlink(`images/${filename}`, () => console.log("Image Supprimée"));
       const updatedSauce = await Sauce.findOneAndUpdate(
         { _id: req.params.id },
         { ...data, imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` },
