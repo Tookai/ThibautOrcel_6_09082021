@@ -1,4 +1,4 @@
-Piiquante : Backend - Projet 6 - OpenClassrooms : Web Developper
+Piiquante : Backend - Projet 6 - OpenClassrooms : Web Developer
 
 Réalisé avec : Node.js Express & MongoDB
 
